@@ -1,8 +1,14 @@
 import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
 const reducer = (state, action) => {
 
-    if(action.type === "ADD_TO_CART") {
+    if (action.type === "REPLACE_PRODUCTS") {
+        return {
+            ...state,
+            products: action.products
+        }
+    } else if(action.type === "ADD_TO_CART") {
         return {
             ...state,
             cart: state.cart.concat(action.product)
@@ -24,4 +30,4 @@ const logger = store => next => action => {
     return result
 }
 
-export default createStore(reducer, { cart: [] }, applyMiddleware(logger));
+export default createStore(reducer, { cart: [], products: [] }, applyMiddleware(logger, thunk));
